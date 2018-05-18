@@ -11,10 +11,11 @@ class model_region extends CI_Model{
        return $sql->result();   
     }
     public function insertRegion($data){
-         $this->db->insert("travailler",$data);
-    }    
-    public function insertTravail($data){
          $this->db->insert("region",$data);
+    }    
+
+        public function insertTravail($data){
+         $this->db->insert("travailler",$data);
     }
     
     public function getAllSecteurs(){
