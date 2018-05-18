@@ -5,31 +5,31 @@ class Ctrl_Main extends CI_Controller {
          parent::__construct(); 
          //$this->load->helper('url'); 
         // $this->load->database();
-        $this->load->model("model_visiteur");        
-        $this->load->model("model_region");        
-        $this->load->model("model_stat");
+        $this->load->model("Model_visiteur");        
+        $this->load->model("Model_region");        
+        $this->load->model("Model_stat");
         } 
         
         public function index(){
-            $data['lesRegions'] = $this->model_region->getAllRegions();
-            $data["lesSecteurs"] = $this->model_region->getAllSecteurs();
-            $data["lesLabos"] = $this->model_visiteur->getAllLabos();
-            $data["lesVisiteurs"] = $this->model_visiteur->getAllVisiteurs();
-            $data['regionDuSecteur'] = $this->model_stat->getAllRegionDeSecteur();
-            $data['visDeRegion'] = $this->model_stat->getAllVisDeRegion();
+            $data['lesRegions'] = $this->Model_region->getAllRegions();
+            $data["lesSecteurs"] = $this->Model_region->getAllSecteurs();
+            $data["lesLabos"] = $this->Model_visiteur->getAllLabos();
+            $data["lesVisiteurs"] = $this->Model_visiteur->getAllVisiteurs();
+            $data['regionDuSecteur'] = $this->Model_stat->getAllRegionDeSecteur();
+            $data['visDeRegion'] = $this->Model_stat->getAllVisDeRegion();
             $this->load->view('v_main_page', $data);
         }
         
         public function modifirVisiteurPage(){
-            $data["lesVisiteurs"] = $this->model_visiteur->getAllVisiteurs();
+            $data["lesVisiteurs"] = $this->Model_visiteur->getAllVisiteurs();
             $this->load->view('v_mod_visiteur', $data);
         }
         
         public function modVisiteur(){
             $VIS_MATRICULE = $this->uri->segment(3);
-            $data["unVis"] = $this->model_visiteur->getVisById($VIS_MATRICULE);
-            $data["lesSecteurs"] = $this->model_region->getAllSecteurs();
-            $data["lesLabos"] = $this->model_visiteur->getAllLabos();
+            $data["unVis"] = $this->Model_visiteur->getVisById($VIS_MATRICULE);
+            $data["lesSecteurs"] = $this->Model_region->getAllSecteurs();
+            $data["lesLabos"] = $this->Model_visiteur->getAllLabos();
             $this->load->view("v_mod_visiteur_form.php",$data);
         }
 
@@ -54,12 +54,12 @@ class Ctrl_Main extends CI_Controller {
                   
                    if($this->input->post('modVisBtn'))
                     {
-                        $this->model_visiteur->modifierVisiteur($this->input->post('hidden_id'),$data['VIS_NOM'],$data['Vis_PRENOM'],$data['VIS_ADRESSE'],$data['VIS_CP'],$data['VIS_VILLE'],$data['VIS_DATEEMBAUCHE'],$data['SEC_CODE'],$data['LAB_CODE']);
+                        $this->Model_visiteur->modifierVisiteur($this->input->post('hidden_id'),$data['VIS_NOM'],$data['Vis_PRENOM'],$data['VIS_ADRESSE'],$data['VIS_CP'],$data['VIS_VILLE'],$data['VIS_DATEEMBAUCHE'],$data['SEC_CODE'],$data['LAB_CODE']);
                         $this->modifirVisiteurPage();
                     }
                             
                     if($this->input->post('newVisBtn')){                            
-                        $this->model_visiteur->insertVisiteurs($data);
+                        $this->Model_visiteur->insertVisiteurs($data);
                         $this->index();
                     }
 
@@ -81,13 +81,13 @@ class Ctrl_Main extends CI_Controller {
                   
                    if($this->input->post('modRegBtn'))
                     {
-                       $this->model_region->modifierRegion($this->input->post('hidden_id'),$data['REG_NOM'],$data['SEC_CODE']);
+                       $this->Model_region->modifierRegion($this->input->post('hidden_id'),$data['REG_NOM'],$data['SEC_CODE']);
                         $this->modifirRegionPage();
                     }
                             
                     if($this->input->post('newRegBtn')){                            
 
-                        $this->model_region->insertRegion($data);
+                        $this->Model_region->insertRegion($data);
                         $this->index();
                     }
 
@@ -95,14 +95,14 @@ class Ctrl_Main extends CI_Controller {
         }
         
         public function modifirRegionPage(){
-            $data['lesRegions'] = $this->model_region->getAllRegions();
+            $data['lesRegions'] = $this->Model_region->getAllRegions();
             $this->load->view('v_mod_region', $data);
         }
         
         public function modRegion(){
             $REG_CODE = $this->uri->segment(3);
-            $data["unReg"] = $this->model_region->getRegById($REG_CODE);
-            $data["lesSecteurs"] = $this->model_region->getAllSecteurs();
+            $data["unReg"] = $this->Model_region->getRegById($REG_CODE);
+            $data["lesSecteurs"] = $this->Model_region->getAllSecteurs();
             $this->load->view("v_mod_region_form.php",$data);
         }
         
@@ -119,14 +119,14 @@ class Ctrl_Main extends CI_Controller {
                             'TRA_ROLE' =>$this->input->post('TRA_ROLE')
                         );
 
-                        $this->model_region->insertRegion($data);
+                        $this->Model_region->insertRegion($data);
                         $this->index();
 
               }  
         }
         
         public function listTravailler(){
-            $data['lesTravaillers'] = $this->model_region->getAllTravails();
+            $data['lesTravaillers'] = $this->Model_region->getAllTravails();
             $this->load->view('v_list_travailler',$data);
         }
         
